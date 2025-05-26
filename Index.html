@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Currency & Pi Calculator</title>
+  <style>
+    body {
+      font-family: Arial;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    input, select {
+      padding: 10px;
+      margin: 5px 0;
+      width: 100%;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 10px;
+      background: #6200ea;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      width: 100%;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Currency Converter</h2>
+    <select id="currency">
+      <option value="USD">USD</option>
+      <option value="PKR">PKR</option>
+      <option value="INR">INR</option>
+      <option value="EUR">EUR</option>
+    </select>
+    <input type="number" id="amount" placeholder="Enter amount" />
+    <button onclick="convertCurrency()">Convert</button>
+    <p id="converted"></p>
+  </div>
+
+  <div class="card">
+    <h2>Fee & Tax Calculator</h2>
+    <input type="number" id="amount2" placeholder="Enter original amount" />
+    <input type="number" id="fee" placeholder="Fee or tax (%)" />
+    <button onclick="calculateFee()">Calculate Final Amount</button>
+    <p id="finalAmount"></p>
+  </div>
+
+  <div class="card">
+    <h2>Profit & Loss Calculator</h2>
+    <input type="number" id="buyPrice" placeholder="Buy price" />
+    <input type="number" id="sellPrice" placeholder="Sell price" />
+    <button onclick="calcProfit()">Calculate</button>
+    <p id="profitLoss"></p>
+  </div>
+
+  <div class="card">
+    <h2>Pi Coin Value</h2>
+    <input type="number" id="piAmount" placeholder="Enter Pi amount" />
+    <button onclick="getPiValue()">Convert to selected currency</button>
+    <p id="piValue"></p>
+  </div>
+
+  <script>
+    const rates = {
+      USD: 1,
+      PKR: 280,
+      INR: 83,
+      EUR: 0.93
+    };
+    const piUSD = 35;
+
+    function convertCurrency() {
+      const amount = parseFloat(document.getElementById("amount").value);
+      const currency = document.getElementById("currency").value;
+      const rate = rates[currency];
+      document.getElementById("converted").innerText = `Converted: ${amount * rate} ${currency}`;
+    }
+
+    function calculateFee() {
+      const amount = parseFloat(document.getElementById("amount2").value);
+      const fee = parseFloat(document.getElementById("fee").value);
+      const final = amount - (amount * (fee / 100));
+      document.getElementById("finalAmount").innerText = `After fee/tax: ${final}`;
+    }
+
+    function calcProfit() {
+      const buy = parseFloat(document.getElementById("buyPrice").value);
+      const sell = parseFloat(document.getElementById("sellPrice").value);
+      const profit = sell - buy;
+      const status = profit >= 0 ? "Profit" : "Loss";
+      document.getElementById("profitLoss").innerText = `${status}: ${profit}`;
+    }
+
+    function getPiValue() {
+      const piAmount = parseFloat(document.getElementById("piAmount").value);
+      const currency = document.getElementById("currency").value;
+      const currencyRate = rates[currency];
+      const value = piAmount * piUSD * currencyRate;
+      document.getElementById("piValue").innerText = `${value.toFixed(2)} ${currency}`;
+    }
+  </script>
+</body>
+</html>
